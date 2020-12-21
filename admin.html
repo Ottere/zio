@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin sitemap</title>
+</head>
+<body>
+    <h1 id ="title">SiteMap Edit and Delete</h1>
+    <input type ="button" value = "아래로" onclick="location.href='#under'">
+    <hr>
+    <form name="frmEdit" action="" method="POST">
+        id : <input type="text" name="id" value="작성x"> <br>
+        title : <input type="text" name="title"> <br>
+        url : <input type="text" name="url"> <br>
+        depth : <input type="text" name="depth"> <br>
+        pid: <input type="text" name="pid"> <br>
+        sortseq : <input type="text" name="sortseq"> <br>
+        describe : <input type="text" name="describe"> <br>
+        <input type="submit" onclick="action='/insert'" value="저장">
+        <input type="submit" onclick="action='/update'" value="수정">
+    </form>
+    <hr>
+    {% for row in sitemap | sort(attribute='id')%}
+        {{row.id}}, {{row.title}} , {{row.url}} , {{row.depth}} , {{row.pid}} , {{row.sortseq}} , {{row.describe}} ,{{row.favState}}
+        <input type="button" value="삭제" onclick="fDel('{{row.id}}')">
+        <input type="button" value="수정" onclick="fEdit('{{row.id}}', '{{row.title}}', '{{row.url}}', '{{row.depth}}', '{{row.pid}}','{{row.sortseq}}', '{{row.describe}}')">
+        <br>
+    {% endfor %}
+    <hr>
+    <input id = "under" type = "button" value = "위로" onclick="location.href='#title'">
+   
+
+    <script>
+        function fDel(uid) {
+            if (confirm(uid+"정말로 삭제하시겠습니까?")==false) return;
+            location.href="/delete/"+uid;
+        }
+
+        function fEdit(id,title,url,depth,pid,sortseq,describe){
+            var frm = document.frmEdit;
+                frm.id.value = id;
+                frm.title.value = title;
+                frm.url.value = url;
+                frm.depth.value = depth;
+                frm.pid.value = pid;
+                frm.sortseq.value = sortseq;
+                frm.describe.value = describe;
+        }
+    </script>
+</body>
+</html>
