@@ -1,0 +1,227 @@
+<div class="contact-content-body">
+            {% for list in sitemap | sort(attribute='sortseq') %}
+          <div id="2deps-tab" class="tab-content">
+            <!-- <div id="contactInformation" class="tab-pane show active pd-20 pd-xl-25">
+            </div>
+            <div id="contactLogs" class="tab-pane pd-20 pd-xl-25">
+              <div class="d-flex align-items-center justify-content-between mg-b-30">
+                <h6 class="tx-15 mg-b-0">Call &amp; Message Logs</h6>
+                <a href="#" class="btn btn-sm btn-white d-flex align-items-center"><i class="icon ion-md-time mg-r-5 tx-16 lh--9"></i> Clear History</a>
+              </div>
+            </div> -->
+          </div><!-- tab-content -->
+            {% endfor %}
+
+        </div><!-- contact-content-body -->
+
+$('.contact-list .media').on('click', function(e) {
+    $('.contact-content-body #2deps-tab').empty();
+    e.preventDefault();
+    var oneval = $(this).find('li').val();
+    if($(this).find('li').attr("data-loaded")=='yes') {
+    $.ajax({
+      			type:'POST',
+      			url:'http://127.0.0.1:5000/click',
+      			data : 
+      				{'pid' : oneval} ,
+      			dataType:'JSON',
+      			success:function(result){
+      				var obj = JSON.parse(JSON.stringify(result))
+      				for (var i=0; i<Object.keys(obj).length; i++) {
+      					var list_two = document.createElement('li');
+      					list_two.setAttribute('value',obj[i].id);
+      					list_two.setAttribute('data-loaded','yes');
+      					list_two.innerHTML = "<a href=''>"+ obj[i].title +
+      					"</a>"+
+      					"<ol class = 'submenu2' id = "+obj[i].id+"> </ol>";
+      					document.getElementById('2deps-tab').appendChild(list_two);
+      				}
+      			}
+          });
+          $(this).find('li').attr("data-loaded","no");
+        }
+        else if($(this).find('li').attr("data-loaded")=='no'){
+          $('.contact-content-body #2deps-tab').empty();
+          $(this).find('li').attr("data-loaded","yes");
+        }
+
+    $('.contact-list .media').removeClass('active');
+    $(this).addClass('active');
+
+    var cName = $(this).find('h6').text();
+    $('#contactName').text(cName);
+
+    var aName=$(this).find('span').text();
+    $('#contactId').text(aName);
+
+    var cAvatar = $(this).find('.avatar').clone();
+
+    cAvatar.removeClass (function (index, className) {
+      return (className.match (/(^|\s)avatar-\S+/g) || []).join(' ');
+    });
+    cAvatar.addClass('avatar-xl');
+
+    $('#contactAvatar .avatar').replaceWith(cAvatar);
+
+
+
+
+    // showing contact information when clicking one of the list
+    // for mobile interaction only
+    if(window.matchMedia('(max-width: 991px)').matches) {
+      $('body').addClass('contact-content-show');
+      $('body').removeClass('contact-content-visible');
+
+      $('#mainMenuOpen').addClass('d-none');
+      $('#contactContentHide').removeClass('d-none');
+    }
+  })
+
+최근검색어 db
+id(int) pk, title(string), url(string),describe(string)
+최근검색어 클릭시 오른쪽에 설명 이동
+create table searchLog (sid integer primarykey,stitle char(255), surl char(255),sdescribe char(255));
+
+class searchLog(db.Model):
+  sid = db.Column(db.Integer,primary_key = True, autoincrement=True)
+  stitle = db.Column(db.String(255), nullable = False)
+  surl = db.Column(db.String(255), nullable = True)
+  sdescribe = db.Column(db.String(255), nullable = True)
+
+
+presistent cookies 만료일 가짐
+tblEdu_Cate
+사이트번호 SiteNo  int
+카테고리번호 CateNo  int 
+카테고리명 CateName  varchar(80)
+상위카테고리번호 pCateNo int
+정렬순서 SortSeq int
+
+Home
+아카데미 - 지오유아카데미, 알림방
+강의 및 강좌 -중학생 대상, 고등학생 대상, 대학생 대상, 기업 및 기관 대상, 디바이스 관련
+교재 - 개발언어부문, 리눅스부문, 데이터베이스부문
+고객지원 - 장애신고, 원격지원요청, 프리젠테이션, 타임라인
+마이페이지 - 나의 프로파일, 편집모드로 변경, 나의 질문, 나의 답변, 나의 글 통계, 로그아웃
+
+insert into tbledu_cate (SiteNo,CateNo,CateName,pCateNo,SortSeq) value(1,1,'Home',1,1);
+
+
+<div id="navbarMenu" class="navbar-menu-wrapper">
+
+---------------------------------------------------------------------------------
+        <div class="navbar-menu-header">
+          <a href="../../index.html" class="df-logo">zioyou<span>forge</span></a>
+          <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
+        </div><!-- navbar-menu-header -->
+---------------------------------------------------------------------------------
+
+        <ul class="nav navbar-menu">
+          <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
+	-------------------------------------------------------------------------------
+          <li class="nav-item with-sub">
+            <a href="" class="nav-link"><i data-feather="pie-chart"></i> Dashboard</a>
+            <ul class="navbar-menu-sub">
+              <li class="nav-sub-item"><a href="dashboard-one.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Sales Monitoring</a></li>
+              <li class="nav-sub-item"><a href="dashboard-two.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Website Analytics</a></li>
+              <li class="nav-sub-item"><a href="dashboard-three.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Cryptocurrency</a></li>
+              <li class="nav-sub-item"><a href="dashboard-four.html" class="nav-sub-link"><i data-feather="bar-chart-2"></i>Helpdesk Management</a></li>
+            </ul>
+          </li>
+	-------------------------------------------------------------------------------
+          <li class="nav-item with-sub active">
+            <a href="" class="nav-link"><i data-feather="package"></i> Apps</a>
+            <ul class="navbar-menu-sub">
+              <li class="nav-sub-item"><a href="app-calendar.html" class="nav-sub-link"><i data-feather="calendar"></i>Calendar</a></li>
+              <li class="nav-sub-item"><a href="app-chat.html" class="nav-sub-link"><i data-feather="message-square"></i>Chat</a></li>
+              <li class="nav-sub-item"><a href="app-contacts.html" class="nav-sub-link"><i data-feather="users"></i>Contacts</a></li>
+              <li class="nav-sub-item"><a href="app-file-manager.html" class="nav-sub-link"><i data-feather="file-text"></i>File Manager</a></li>
+              <li class="nav-sub-item"><a href="app-mail.html" class="nav-sub-link"><i data-feather="mail"></i>Mail</a></li>
+            </ul>
+          </li>
+	-------------------------------------------------------------------------------
+          <li class="nav-item with-sub">
+            <a href="" class="nav-link"><i data-feather="layers"></i> Pages</a>
+            <div class="navbar-menu-sub">
+              <div class="d-lg-flex">
+                <ul>
+                  <li class="nav-label">Authentication</li>
+                  <li class="nav-sub-item"><a href="page-signin.html" class="nav-sub-link"><i data-feather="log-in"></i> Sign In</a></li>
+                  <li class="nav-sub-item"><a href="page-signup.html" class="nav-sub-link"><i data-feather="user-plus"></i> Sign Up</a></li>
+                  <li class="nav-sub-item"><a href="page-verify.html" class="nav-sub-link"><i data-feather="user-check"></i> Verify Account</a></li>
+                  <li class="nav-sub-item"><a href="page-forgot.html" class="nav-sub-link"><i data-feather="shield-off"></i> Forgot Password</a></li>
+                  <li class="nav-label mg-t-20">User Pages</li>
+                  <li class="nav-sub-item"><a href="page-profile-view.html" class="nav-sub-link"><i data-feather="user"></i> View Profile</a></li>
+                  <li class="nav-sub-item"><a href="page-connections.html" class="nav-sub-link"><i data-feather="users"></i> Connections</a></li>
+                  <li class="nav-sub-item"><a href="page-groups.html" class="nav-sub-link"><i data-feather="users"></i> Groups</a></li>
+                  <li class="nav-sub-item"><a href="page-events.html" class="nav-sub-link"><i data-feather="calendar"></i> Events</a></li>
+                </ul>
+                <ul>
+                  <li class="nav-label">Error Pages</li>
+                  <li class="nav-sub-item"><a href="page-404.html" class="nav-sub-link"><i data-feather="file"></i> 404 Page Not Found</a></li>
+                  <li class="nav-sub-item"><a href="page-500.html" class="nav-sub-link"><i data-feather="file"></i> 500 Internal Server</a></li>
+                  <li class="nav-sub-item"><a href="page-503.html" class="nav-sub-link"><i data-feather="file"></i> 503 Service Unavailable</a></li>
+                  <li class="nav-sub-item"><a href="page-505.html" class="nav-sub-link"><i data-feather="file"></i> 505 Forbidden</a></li>
+                  <li class="nav-label mg-t-20">Other Pages</li>
+                  <li class="nav-sub-item"><a href="page-timeline.html" class="nav-sub-link"><i data-feather="file-text"></i> Timeline</a></li>
+                  <li class="nav-sub-item"><a href="page-pricing.html" class="nav-sub-link"><i data-feather="file-text"></i> Pricing</a></li>
+                  <li class="nav-sub-item"><a href="page-help-center.html" class="nav-sub-link"><i data-feather="file-text"></i> Help Center</a></li>
+                  <li class="nav-sub-item"><a href="page-invoice.html" class="nav-sub-link"><i data-feather="file-text"></i> Invoice</a></li>
+                </ul>
+              </div>
+            </div><!-- nav-sub -->
+          </li>
+	-------------------------------------------------------------------------------
+          <li class="nav-item"><a href="../../components/" class="nav-link"><i data-feather="box"></i> Components</a></li>
+	-------------------------------------------------------------------------------
+          <li class="nav-item"><a href="../../collections/" class="nav-link"><i data-feather="archive"></i> Collections</a></li>
+        </ul>
+      </div><!-- navbar-menu-wrapper -->
+
+
+
+
+Home - 최근 컨텐츠 , 인기컨텐츠 (수시로 변경되는것같음.)
+
+
+아카데미(지오유아카데미) - 설립목표, 강사진 소개, 용인캠퍼스, 사이버캠퍼스
+아카데미(알림방) - 공지사항, 이벤트, 기사 및 홍보
+
+강의 및 강좌 (중학생 대상) - 중학생 6명 아두이노 1년 개발자 과정
+강의 및 강좌 (고등학생 대상) - 분당경영고 소프트웨어학과 3학년 파이썬 개발자 과정
+강의 및 강좌 (대학생 대상) - 수원여자대학교 소프트웨어학과 파이썬 PRA 강좌, 한국산업기술대학교(일학습병행 4년과정)
+강의 및 강좌 (기업 및 기관 대상) - 2020년 비대면 홈트레이닝 플랫폼 구축 컨설팅, 소프트웨어 개발사 2021년 사업계획 컨설팅, 
+			   2021년 사이버대학교 플랫폼 구축을 위한 컨설팅
+강의 및 강좌 (디바이스 관련) - 스마트고양이 제작
+교재 (개발언어부문) - [교재]왕초보를 위한 Python 문법 익히기, [교재] 예제로 배우면서 Python 알아가기
+		 [교재]미니 프로젝트로 Python 알아가기, [교재] 파이썬 주요모듈로 알아보는 IT 트랜드 일기
+		 [교재]파이썬 헷갈리는 개념들 바로잡기, [교재]회사 출근자 얼굴인식을 위한 안면 트래킹 기술
+교재 (리눅스부문) - [교재]라즈비안 설치 및 환경설정, [교재]리눅스 주요 명령어 모음집
+	       [교재]라즈비안에서 외부 디바이스 장착 및 운용방법
+교재 (데이터베이스부문) - [교재]ORM 분야의 SQLAlchemy, [교재] SQLite 데이터베이스
+교재 (OJT부문) - [교재]위키 사내 지식센터 구축 ---------DB 추가안됌
+고객지원 (장애신고) -링크이동
+고객지원 (원격지원요청)-링크이동
+고객지원 (프리젠테이션)
+고객지원 (타임라인)
+
+
+글
+-사이트 번호 - SiteNo
+-글번호 - AtcNo
+-제목 - Subject
+-소속기본카테고리번호 PubCode 
+-정렬순서SortSeq
+
+알림방 - 기사 및 홍보 - 2020 중소기업 특성화고 인력양성사업 우수사례집 (중소벤처기업진흥공단)
+중학생 대상 - 아두이노 1년 개발자과정 - 아이들의 미래, 학습 활동 현황, 강좌소개
+고등학생 대상 - 분경고 3학년 파이썬 - 파이썬 개발자 과정 오리엔테이션, 2020년을 이끌어나갈 인기 프로그래밍 언어 TOP3
+	1강. 6월10(수) 5교시, 6교시, 7교시, 2강. 6월17(수) 5교시, 6교시, 7교시, 3강. 6월24(수) 5교시, 6교시, 7교시
+	4강. 7월1(수) 5교시, 6교시, 7교시, 5강. 7월8(수) 5교시, 6교시, 7교시, 6강. 7월15(수) 5교시, 6교시, 7교시
+	7강. 7월29(수) 5교시, 6교시, 7교시, 8강. 8월5(수) 5교시, 6교시, 7교시, 9강. 8월19(수) 1교시~7교시
+	10강. 8월20(목) 1교시~7교시, 11강. 8월21(금) 1교시~7교시, 12강. 9월2(수) 5교시, 6교시, 7교시
+	13강. 9월9(수) 5교시, 6교시, 7교시, 14강. 9월16(수) 5교시, 6교시, 7교시, 15강. 10월14(수) 5교시, 6교시, 7교시
+대학생 대상 - 한산기 - 2021년 1월 수업내용
+기업 및 기관 대상- 비대면 홈트레이닝 플랫폼 구축 - HLS와 WebRTC 비교 보고서, 홈트레이닝플랫폼 IaaS 부문, 홈트레이닝 플랫폼 구축 컨설팅 보고서, 홈트레이닝 플랫포 구축(기획/설계/구현/테스트)공수산정
+기업 및 기관 대상 - 소프트웨어 개발사 - (주)내외정보기술 개발사 2021년 사업방향 컨설팅
+기업 및 기관 대상 - 사이버 대학교 설립 - 사이버대학 인가를 위한 외부 컨설팅 화상회의, 사이버대학? 플랫폼으로서의 접근
